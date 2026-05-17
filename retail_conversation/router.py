@@ -1,5 +1,6 @@
 import re
 
+from retail_conversation.tools.cases import create_case_summary
 from retail_conversation.tools.customers import (
     get_customer_context,
     get_customer_orders,
@@ -51,6 +52,21 @@ def retail_router(question: str) -> str:
     text = question.lower()
     email = _find_email(question)
     order_id = _find_order_id(question)
+
+    case_keywords = [
+        "case summary",
+        "summarize this issue",
+        "handoff",
+        "hand off",
+        "agent assist",
+        "support summary",
+    ]
+    if any(keyword in text for keyword in case_keywords):
+        if not email:
+            return "I need the customer's exact email address before I can create a case summary."
+        if not order_id:
+            return "I need the exact order ID before I can create a case summary."
+        return create_case_summary(email, order_id, question)
 
     issue_keywords = [
         "help me",

@@ -20,6 +20,8 @@ root_agent = Agent(
         "recommendation, top-selling, and return questions. "
         "After a tool returns data, include the important fields from the tool result; "
         "do not replace tool data with a generic answer. "
+        "For case summary, handoff, support summary, or agent assist requests, preserve "
+        "the structured headings returned by the tool. "
         "Only show customer data when the user provides an exact customer email. "
         "Only show order data when the user provides an exact order ID. "
         "Base product, customer, and order answers on the tools, not guesses. "

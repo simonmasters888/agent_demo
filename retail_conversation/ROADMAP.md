@@ -182,6 +182,8 @@ Add a tool:
 create_case_summary(customer_email: str, order_id: str, issue: str) -> str
 ```
 
+Status: implemented in `tools/cases.py`.
+
 Output format:
 
 ```text

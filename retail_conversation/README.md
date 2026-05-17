@@ -64,6 +64,7 @@ retail_conversation/
     orders.py           # order status, items, return eligibility
     policies.py         # reads local grounded policy files
     issues.py           # broad customer support issue workflow
+    cases.py            # agent-assist case summaries
   data/
     policies/
       returns.md
@@ -87,6 +88,7 @@ The router supports:
 - order status/items/return eligibility, when an exact order ID is provided
 - grounded return, shipping, loyalty, and escalation policies
 - broad customer issue resolution with next-best action
+- agent-assist case summaries for support handoff
 
 ## Example Prompts
 
@@ -132,4 +134,8 @@ I'm Jason Townsend. My email is jason_townsend@hotmail.com. Can you help me with
 
 ```text
 My order arrived late. Can I return it?
+```
+
+```text
+Create a case summary for jason_townsend@hotmail.com and order b9afc36c-3ad1-4d57-8719-904c064d3fcb. The customer wants to return the order.
 ```
