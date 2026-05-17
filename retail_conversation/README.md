@@ -39,6 +39,7 @@ products
 customer
 orders
 order_items
+agent_interactions
 ```
 
 ## Tool Design
@@ -65,6 +66,7 @@ retail_conversation/
     policies.py         # reads local grounded policy files
     issues.py           # broad customer support issue workflow
     cases.py            # agent-assist case summaries
+    logging.py          # best-effort BigQuery interaction logging
   data/
     policies/
       returns.md
@@ -89,6 +91,24 @@ The router supports:
 - grounded return, shipping, loyalty, and escalation policies
 - broad customer issue resolution with next-best action
 - agent-assist case summaries for support handoff
+- BigQuery interaction logging for CX analytics
+
+## Interaction Logs
+
+Routed interactions are logged best-effort to:
+
+```text
+simon-sandpit-472404.retail_demo.agent_interactions
+```
+
+Example analytics query:
+
+```sql
+SELECT router_decision, COUNT(*) AS interactions
+FROM `simon-sandpit-472404.retail_demo.agent_interactions`
+GROUP BY router_decision
+ORDER BY interactions DESC;
+```
 
 ## Example Prompts
 

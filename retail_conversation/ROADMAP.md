@@ -207,6 +207,8 @@ Acceptance criteria:
 
 Add lightweight BigQuery logging for demo observability.
 
+Status: implemented with best-effort logging to `retail_demo.agent_interactions`.
+
 Potential table:
 
 ```text
