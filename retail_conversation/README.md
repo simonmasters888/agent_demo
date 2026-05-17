@@ -51,6 +51,28 @@ retail_router(question: str)
 
 The router decides which internal BigQuery helper to use. This keeps tool routing more reliable than exposing many similar tools directly.
 
+## Project Structure
+
+```text
+retail_conversation/
+  agent.py              # ADK root_agent declaration
+  router.py             # deterministic question routing
+  config.py             # BigQuery table and category constants
+  tools/
+    products.py         # product search, compare, bundle, top sellers
+    customers.py        # customer profile, value, history, orders
+    orders.py           # order status, items, return eligibility
+    policies.py         # reads local grounded policy files
+  data/
+    policies/
+      returns.md
+      shipping.md
+      loyalty.md
+      escalation.md
+  README.md
+  ROADMAP.md
+```
+
 The router supports:
 
 - product search
@@ -62,7 +84,7 @@ The router supports:
 - top-selling products
 - customer profile/value/history, when an exact email is provided
 - order status/items/return eligibility, when an exact order ID is provided
-- general return policy
+- grounded return, shipping, loyalty, and escalation policies
 
 ## Example Prompts
 
@@ -92,4 +114,12 @@ Can order b9afc36c-3ad1-4d57-8719-904c064d3fcb be returned?
 
 ```text
 What is your return policy?
+```
+
+```text
+What is your shipping policy?
+```
+
+```text
+When should an issue be escalated?
 ```
