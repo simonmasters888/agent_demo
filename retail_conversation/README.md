@@ -63,6 +63,7 @@ retail_conversation/
     customers.py        # customer profile, value, history, orders
     orders.py           # order status, items, return eligibility
     policies.py         # reads local grounded policy files
+    issues.py           # broad customer support issue workflow
   data/
     policies/
       returns.md
@@ -85,6 +86,7 @@ The router supports:
 - customer profile/value/history, when an exact email is provided
 - order status/items/return eligibility, when an exact order ID is provided
 - grounded return, shipping, loyalty, and escalation policies
+- broad customer issue resolution with next-best action
 
 ## Example Prompts
 
@@ -122,4 +124,12 @@ What is your shipping policy?
 
 ```text
 When should an issue be escalated?
+```
+
+```text
+I'm Jason Townsend. My email is jason_townsend@hotmail.com. Can you help me with order b9afc36c-3ad1-4d57-8719-904c064d3fcb? I want to know if I can return it.
+```
+
+```text
+My order arrived late. Can I return it?
 ```

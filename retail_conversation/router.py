@@ -6,6 +6,7 @@ from retail_conversation.tools.customers import (
     get_customer_product_history,
     get_customer_value_summary,
 )
+from retail_conversation.tools.issues import resolve_customer_issue
 from retail_conversation.tools.orders import get_order_context
 from retail_conversation.tools.policies import (
     get_escalation_policy,
@@ -36,7 +37,7 @@ ORDER_ID_PATTERN = re.compile(
 def _find_email(text: str) -> str | None:
     """Extract the first email address from a customer question."""
     match = EMAIL_PATTERN.search(text)
-    return match.group(0) if match else None
+    return match.group(0).rstrip(".,;:!?") if match else None
 
 
 def _find_order_id(text: str) -> str | None:
@@ -50,6 +51,24 @@ def retail_router(question: str) -> str:
     text = question.lower()
     email = _find_email(question)
     order_id = _find_order_id(question)
+
+    issue_keywords = [
+        "help me",
+        "issue",
+        "problem",
+        "unhappy",
+        "angry",
+        "complaint",
+        "refund",
+        "compensation",
+        "speak to someone",
+        "human",
+        "manager",
+        "arrived late",
+        "delayed",
+    ]
+    if any(keyword in text for keyword in issue_keywords):
+        return resolve_customer_issue(question)
 
     if email:
         if any(word in text for word in ["value", "spend", "spent", "order count", "average order"]):

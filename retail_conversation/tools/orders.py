@@ -31,12 +31,18 @@ def get_order_status(order_id: str) -> str:
         return "I could not find that order in the retail demo data."
 
     row = rows[0]
-    delivery = row.actual_delivery_date or row.estimated_delivery_date or "not available"
+    if row.actual_delivery_date:
+        delivery = f"Actual delivery date: {row.actual_delivery_date}"
+    elif row.estimated_delivery_date:
+        delivery = f"Estimated delivery date: {row.estimated_delivery_date}"
+    else:
+        delivery = "Delivery date: not available"
+
     return (
         f"Order {row.order_id} is {row.order_status}. "
         f"Payment status: {row.payment_status}. "
         f"Shipping: {row.shipping_method}. "
-        f"Delivery date: {delivery}. "
+        f"{delivery}. "
         f"Total: ${row.total_amount:.2f}."
     )
 
@@ -115,12 +121,11 @@ def check_return_eligibility(order_id: str) -> str:
         return "I could not find that order in the retail demo data."
 
     row = rows[0]
-    delivery_date = row.actual_delivery_date or row.estimated_delivery_date
-    return_policy = get_return_policy()
+    delivery_date = row.actual_delivery_date
     if not delivery_date:
         return (
-            f"Order {row.order_id} does not have a delivery date, so I cannot confirm "
-            f"the {RETURN_WINDOW_DAYS} day return window.\n\nPolicy source:\n{return_policy}"
+            f"Order {row.order_id} does not have a confirmed actual delivery date, so I cannot confirm "
+            f"the {RETURN_WINDOW_DAYS} day return window. Policy source: Returns Policy."
         )
 
     eligibility_date = client.query(
